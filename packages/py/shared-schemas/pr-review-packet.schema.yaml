@@ -31,7 +31,8 @@ properties:
     type: array
     items:
       type: string
-      pattern: "^ADR-[0-9]{4}$|^000[0-9].*$"
+      pattern: "^\\d{4}-[a-z0-9][a-z0-9-]*$"
+      description: Repository ADR file stem, for example 0003-structured-io-and-constrained-generation
   summary:
     type: object
     required:

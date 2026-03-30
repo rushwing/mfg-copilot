@@ -21,6 +21,8 @@ flowchart LR
   D --> E["pr_packet_and_handoff"]
 ```
 
+For small or low-risk stories, `test_design` may be folded into `requirement_assessment` rather than persisted as its own phase node.
+
 ## Phase responsibilities
 
 ### requirement_assessment
@@ -86,6 +88,7 @@ Each branch should capture:
 - `hypothesis`
 - `attempt`
 - `score`
+- `score_direction`
 - `failure_reason`
 - `artifacts`
 
@@ -95,6 +98,12 @@ Recommended additional fields:
 - `selected`
 - `created_at`
 - `closed_at`
+
+`score` should be interpreted only together with `score_direction`.
+
+Recommended `score_direction` values:
+- `higher_is_better`
+- `lower_is_better`
 
 ## ReAct inside a branch
 

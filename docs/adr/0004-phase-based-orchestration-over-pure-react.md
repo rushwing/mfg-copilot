@@ -43,6 +43,8 @@ Default phase sequence:
 4. `review_and_repair`
 5. `pr_packet_and_handoff`
 
+For small or low-risk stories, `test_design` may be folded into `requirement_assessment` as part of that phase's output instead of being persisted as a separate phase boundary.
+
 ### Search model
 
 Some phase nodes may be marked `searchable`.
@@ -58,8 +60,11 @@ Each branch should record:
 - `hypothesis`
 - `attempt`
 - `score`
+- `score_direction`
 - `failure_reason`
 - `artifacts`
+
+`score` is a branch-ranking value, not a provider-specific raw metric dump. Branch ordering must interpret the score together with `score_direction`, so different agents do not silently invert selection behavior.
 
 ### Execution model
 
