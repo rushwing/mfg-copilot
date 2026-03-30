@@ -2,9 +2,9 @@
 harness_id: REQ-STD-001
 component: requirements / planning
 owner: Engineering
-version: 0.1
+version: 0.2
 status: draft
-last_reviewed: 2026-03-30
+last_reviewed: 2026-03-31
 ---
 
 # Harness Standard — Requirement and Feature Story Management
@@ -25,6 +25,7 @@ This standard defines how implementation-facing requirements are managed inside 
 - summary docs should route readers to the next layer instead of duplicating deep content
 - detailed architecture belongs in dedicated docs, not repeated inside every story
 - feature stories should stay narrowly implementation-facing
+- repository-wide terms should prefer the definitions in `docs/GLOSSARY.md` once a term is standardized there
 
 ### 2.1 The repo is the source of truth for requirement content
 
@@ -47,6 +48,7 @@ Each feature story must include:
 - stable ID
 - title
 - status
+- workflow phase
 - priority
 - phase
 - epic
@@ -73,6 +75,13 @@ tasks/
 
 ## 4. Status values
 
+This repository uses a two-layer model:
+
+- `status` expresses story lifecycle
+- `workflow_phase` expresses the current execution node inside the long-running engineering workflow
+
+They are related, but they are not the same field and should not be collapsed into one overloaded state machine.
+
 Allowed values:
 - `draft`
 - `ready`
@@ -86,6 +95,36 @@ Starting rule:
 - new stories begin as `draft`
 - move to `ready` after requirement review
 - use GitHub PRs for implementation review once work begins
+
+## 4.1 Workflow phase values
+
+Allowed values:
+- `requirement_assessment`
+- `test_design`
+- `implementation`
+- `review_and_repair`
+- `pr_packet_and_handoff`
+
+Default engineering workflow:
+1. `requirement_assessment`
+2. `test_design`
+3. `implementation`
+4. `review_and_repair`
+5. `pr_packet_and_handoff`
+
+For small or low-risk stories, `test_design` may be folded into `requirement_assessment` instead of being persisted as a separate workflow boundary.
+
+## 4.2 Recommended mapping between status and workflow_phase
+
+- `draft` usually maps to `requirement_assessment`
+- `ready` usually means `requirement_assessment` is complete and the story is ready to enter `test_design` or, for folded small stories, move directly toward `implementation`
+- `in_progress` may occur in `test_design`, `implementation`, `review_and_repair`, or `pr_packet_and_handoff`
+- `blocked` may occur in any workflow phase
+- `review` usually maps to `pr_packet_and_handoff`, where reviewer-facing artifacts and handoff checks are being finalized
+- `done` indicates the workflow has reached a terminal successful outcome
+- `cancelled` indicates the workflow has reached a terminal abandoned outcome
+
+These mappings are intentionally coarse. `status` is for story lifecycle visibility; `workflow_phase` is for execution-state visibility.
 
 ## 5. Phase documents
 
@@ -103,6 +142,7 @@ Each phase doc should define:
 req_id: REQ-001
 title: Example story
 status: draft
+workflow_phase: requirement_assessment
 priority: P1
 phase: phase-1
 epic: example-epic
@@ -139,6 +179,7 @@ A story is review-ready for status promotion to `ready` when:
 - deliverables identify the expected user-visible or system-visible outputs
 - validation notes say whether correctness belongs primarily in `tests/`, `harness/`, or both
 - major open design questions are already resolved or explicitly moved to predecessor stories
+- `workflow_phase` reflects the current execution node instead of trying to encode execution progress in `status` alone
 
 This repository may keep a story in `draft` while the content is already written to this standard, if human review is still pending.
 
@@ -168,6 +209,6 @@ Allowed values:
 ## 9. Calibration
 
 - `bash scripts/check-requirements.sh` is the repo-native calibration script for requirement files
-- it validates frontmatter completeness, enum values, required sections, and phase/story cross-references
+- it validates frontmatter completeness, enum values, required sections, phase/story cross-references, and `workflow_phase` values
 - the script should run in GitHub Actions so malformed stories do not silently enter the main branch
 - `bash scripts/check-progressive-disclosure.sh` should validate the required navigation hubs and keep root entry points from linking directly to too many deep docs
