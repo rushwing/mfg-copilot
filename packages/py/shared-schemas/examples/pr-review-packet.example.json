@@ -1,0 +1,69 @@
+{
+  "schema_id": "pr-review-packet",
+  "schema_version": "v1",
+  "packet_id": "pr-128-review-packet",
+  "pr_number": 128,
+  "pr_title": "Define PR review packet contract and artifact envelope",
+  "generation_mode": "draft_then_structure",
+  "artifact": {
+    "artifact_root": "artifacts/pr-review-packets/pr-128",
+    "machine_packet_path": "artifacts/pr-review-packets/pr-128/review-packet.json",
+    "reviewer_packet_path": "artifacts/pr-review-packets/pr-128/review-packet.md",
+    "visuals_dir": "artifacts/pr-review-packets/pr-128/visuals"
+  },
+  "linked_requirements": [
+    "REQ-018"
+  ],
+  "linked_adrs": [
+    "0003-structured-io-and-constrained-generation",
+    "0004-phase-based-orchestration-over-pure-react"
+  ],
+  "summary": {
+    "executive_summary": "This packet defines the minimum shared contract, runtime artifact paths, and example fixture that future packet generators should follow.",
+    "changed_areas": [
+      {
+        "area": "shared schema contract",
+        "impact": "Adds explicit packet identifiers and artifact envelope guidance for machine consumers.",
+        "files": [
+          "packages/py/shared-schemas/pr-review-packet.schema.yaml",
+          "packages/py/shared-schemas/pr-review-packet-contract.md"
+        ]
+      },
+      {
+        "area": "validation baseline",
+        "impact": "Adds a CI-checkable example fixture so later packet generators target one stable shape.",
+        "files": [
+          "packages/py/shared-schemas/examples/pr-review-packet.example.json",
+          "scripts/check-pr-review-packet-contract.py"
+        ]
+      }
+    ]
+  },
+  "validation": [
+    {
+      "check": "contract fixture completeness",
+      "status": "passed",
+      "evidence": "scripts/check-pr-review-packet-contract.py validates required fields and artifact path conventions."
+    }
+  ],
+  "risks": [
+    {
+      "category": "schema drift",
+      "severity": "medium",
+      "note": "Future packet generators may expand the contract before REQ-019 and REQ-020 land.",
+      "mitigation": "Keep changes additive and update the example fixture in the same PR."
+    }
+  ],
+  "reviewer_checklist": [
+    "Confirm linked REQ and ADR identifiers use canonical formats.",
+    "Confirm artifact paths stay under artifacts/pr-review-packets/pr-<number>/.",
+    "Confirm reviewer prose lives in summary while validation, risks, and visuals stay typed."
+  ],
+  "visuals": [
+    {
+      "type": "svg",
+      "title": "Packet artifact envelope",
+      "path": "artifacts/pr-review-packets/pr-128/visuals/packet-envelope.svg"
+    }
+  ]
+}
