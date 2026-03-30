@@ -1,0 +1,46 @@
+version: 1
+
+retrieval_request:
+  required:
+    - request_id
+    - query
+    - task_class
+  fields:
+    request_id: string
+    query: string
+    task_class: string
+    top_k: integer
+    filters:
+      kb_version: string
+      product: string
+      phase: string
+      checkpoint: string
+
+retrieval_response:
+  required:
+    - request_id
+    - results
+  fields:
+    request_id: string
+    strategy: string
+    results:
+      type: list[object]
+      item_fields:
+        doc_id: string
+        chunk_id: string
+        title: string
+        source_type:
+          enum:
+            - milvus
+            - elasticsearch
+            - hybrid
+        score: number
+        rerank_score: number
+        citation: string
+        content: string
+        metadata:
+          kb_version: string
+          product: string
+          phase: string
+          checkpoint: string
+

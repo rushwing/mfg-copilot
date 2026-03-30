@@ -92,6 +92,7 @@ mfg-copilot/
 ### Backend
 
 - `services/api-gateway/` owns REST APIs, auth/session handling, request validation, and user-facing aggregation.
+- `services/api-gateway/` should reserve approval request and decision schemas in Phase 1, even before full execution logic lands.
 - `services/agent-router/` owns routing logic and policy-aware agent selection.
 - `services/orchestrator/` owns LangGraph execution, checkpoints, retries, task state, and human-in-the-loop.
 - `services/rag-service/` centralizes Milvus and Elasticsearch access instead of duplicating retrieval code in every agent.
@@ -109,9 +110,16 @@ mfg-copilot/
 ### Data and storage
 
 - PostgreSQL: platform metadata, users, sessions, approvals, audit, LangGraph state, task ledger.
-- MySQL: mirrored factory or enterprise operational data when upstream systems already use MySQL.
+- MySQL: upstream enterprise or factory source data that the platform integrates with but does not co-own.
 - Milvus: vector search, semantic memory, long-context retrieval.
 - Elasticsearch: log search, issue correlation, searchable operational knowledge.
+
+Data ownership convention:
+- PostgreSQL is the platform system-of-record
+- MySQL is treated as an upstream enterprise source
+- `data/migrations/postgresql/` contains platform-managed migrations
+- `data/migrations/mysql/` contains documentation or snapshots, not platform-managed migrations
+- one-way sync assets belong in `data/sync/`
 
 ### Delivery and runtime
 
@@ -125,6 +133,16 @@ mfg-copilot/
 - `harness/` is intentionally a top-level peer of app code.
 - All critical agent flows should be backed by harness scenarios, eval datasets, and replayable reports.
 - This keeps regressions visible before production rollout and aligns well with agentic workflows.
+- Harness runs should retain `langsmith_run_id` linkage early, before broad agent rollout makes trace correlation painful to retrofit.
+
+## Review follow-ups already encoded in the layout
+
+- Approval flow scaffold should start in `services/api-gateway/` and `packages/py/shared-schemas/`.
+- `services/rag-service/` is the only retrieval surface for upper layers.
+- Orchestrator and agent boundaries are defined in ADR 0001.
+- Model routing rules should be versioned under `config/model-routing/`.
+- Harness and LangSmith correlation should be treated as a required traceability feature, not an optional later add-on.
+- Database ownership and MySQL integration boundaries are defined in ADR 0002.
 
 ## Placement of the existing docs
 

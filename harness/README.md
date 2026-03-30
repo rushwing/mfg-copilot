@@ -8,3 +8,7 @@ Harness Engineering assets live here.
 - `fixtures/`: stubbed dependencies
 - `runners/`: harness execution entry points
 - `reports/`: benchmark and eval outputs
+
+Traceability rule:
+- each harness execution should emit or attach a `harness_run_id`
+- if LangSmith tracing is enabled, keep the matching `langsmith_run_id` with the harness report so replay and debugging can be joined later

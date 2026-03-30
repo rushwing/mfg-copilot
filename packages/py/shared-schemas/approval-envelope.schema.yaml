@@ -1,0 +1,62 @@
+version: 1
+
+approval_request:
+  required:
+    - approval_id
+    - task_id
+    - requester
+    - approval_type
+    - title
+    - summary
+    - risk_level
+    - status
+    - created_at
+  fields:
+    approval_id: string
+    task_id: string
+    plan_id: string
+    requester: string
+    approval_type: string
+    title: string
+    summary: string
+    impact_scope:
+      site: string
+      station: string
+      phase: string
+      checkpoint: string
+    evidence_refs:
+      type: list[string]
+    risk_level:
+      enum:
+        - low
+        - medium
+        - high
+    status:
+      enum:
+        - pending
+        - approved
+        - rejected
+        - expired
+    created_at: datetime
+    expires_at: datetime
+    trace:
+      task_id: string
+      workflow_id: string
+      langsmith_run_id: string
+
+approval_decision:
+  required:
+    - approval_id
+    - decided_by
+    - decision
+    - decided_at
+  fields:
+    approval_id: string
+    decided_by: string
+    decision:
+      enum:
+        - approved
+        - rejected
+    comment: string
+    decided_at: datetime
+
