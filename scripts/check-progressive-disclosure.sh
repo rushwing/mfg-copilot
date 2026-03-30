@@ -94,6 +94,8 @@ require_text "docs/adr/README.md" "(./0003-structured-io-and-constrained-generat
 require_text "docs/adr/README.md" "(./0004-phase-based-orchestration-over-pure-react.md)" "ADR index links to ADR 0004"
 require_text "docs/architecture/patterns/README.md" "structured-generation.md" "patterns index links to structured-generation"
 require_text "docs/architecture/patterns/README.md" "phase-graph-orchestration.md" "patterns index links to phase-graph-orchestration"
+require_text "docs/architecture/patterns/README.md" "pr-review-packet-visual-language.md" "patterns index links to packet visual language"
+require_text "docs/architecture/patterns/README.md" "pr-review-packet-example.md" "patterns index links to packet example"
 
 require_text "tasks/README.md" "(./phases/README.md)" "tasks home links to phase index"
 require_text "tasks/README.md" "(./features/README.md)" "tasks home links to feature index"

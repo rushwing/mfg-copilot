@@ -84,6 +84,7 @@ Use `direct_structured` only when a producer already has clean typed data and on
 The canonical example fixture lives at:
 
 - [`examples/pr-review-packet.example.json`](./examples/pr-review-packet.example.json)
+- reviewer-facing layout guidance lives at [`docs/architecture/patterns/pr-review-packet-visual-language.md`](../../../docs/architecture/patterns/pr-review-packet-visual-language.md)
 
 That fixture exists to show:
 
