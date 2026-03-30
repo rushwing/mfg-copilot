@@ -60,6 +60,7 @@ echo "check-progressive-disclosure: validating required navigation hubs..."
 
 require_file "README.md"
 require_file "docs/README.md"
+require_file "docs/GLOSSARY.md"
 require_file "docs/architecture/README.md"
 require_file "docs/architecture/overview.md"
 require_file "docs/adr/README.md"
@@ -86,6 +87,7 @@ echo "check-progressive-disclosure: validating docs and tasks indexes..."
 
 require_text "docs/README.md" "(./architecture/README.md)" "docs home links to architecture index"
 require_text "docs/README.md" "(../tasks/README.md)" "docs home links to tasks home"
+require_text "docs/README.md" "(./GLOSSARY.md)" "docs home links to glossary"
 require_text "docs/README.md" "(./adr/README.md)" "docs home links to ADR index"
 
 require_text "docs/adr/README.md" "(./0003-structured-io-and-constrained-generation.md)" "ADR index links to ADR 0003"

@@ -25,6 +25,7 @@ This standard defines how implementation-facing requirements are managed inside 
 - summary docs should route readers to the next layer instead of duplicating deep content
 - detailed architecture belongs in dedicated docs, not repeated inside every story
 - feature stories should stay narrowly implementation-facing
+- repository-wide terms should prefer the definitions in `docs/GLOSSARY.md` once a term is standardized there
 
 ### 2.1 The repo is the source of truth for requirement content
 
