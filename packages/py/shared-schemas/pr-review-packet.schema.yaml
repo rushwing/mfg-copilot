@@ -1,0 +1,119 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: PRReviewPacket
+type: object
+required:
+  - packet_id
+  - pr_title
+  - summary
+  - linked_requirements
+  - validation
+  - risks
+  - reviewer_checklist
+properties:
+  packet_id:
+    type: string
+  pr_number:
+    type: integer
+    minimum: 1
+  pr_title:
+    type: string
+  generation_mode:
+    type: string
+    enum:
+      - direct_structured
+      - draft_then_structure
+  linked_requirements:
+    type: array
+    items:
+      type: string
+      pattern: "^REQ-[0-9]{3}$"
+  linked_adrs:
+    type: array
+    items:
+      type: string
+      pattern: "^ADR-[0-9]{4}$|^000[0-9].*$"
+  summary:
+    type: object
+    required:
+      - executive_summary
+      - changed_areas
+    properties:
+      executive_summary:
+        type: string
+      changed_areas:
+        type: array
+        items:
+          type: object
+          required:
+            - area
+            - impact
+          properties:
+            area:
+              type: string
+            impact:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+  validation:
+    type: array
+    items:
+      type: object
+      required:
+        - check
+        - status
+      properties:
+        check:
+          type: string
+        status:
+          type: string
+          enum:
+            - passed
+            - failed
+            - skipped
+        evidence:
+          type: string
+  risks:
+    type: array
+    items:
+      type: object
+      required:
+        - category
+        - severity
+        - note
+      properties:
+        category:
+          type: string
+        severity:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+        note:
+          type: string
+        mitigation:
+          type: string
+  reviewer_checklist:
+    type: array
+    items:
+      type: string
+  visuals:
+    type: array
+    items:
+      type: object
+      required:
+        - type
+        - title
+      properties:
+        type:
+          type: string
+          enum:
+            - svg
+            - mermaid
+            - table
+        title:
+          type: string
+        path:
+          type: string

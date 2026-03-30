@@ -25,6 +25,7 @@ Do not start with every file here. Read only the layer you need.
 ## Layer 3: Specialized Notes
 
 - [Agent Patterns](./patterns/README.md): ReAct, Markdown Planning, and Ralph Loop
+- [Phase Graph Diagram](./diagrams/phase-graph-orchestration.svg): workflow phases, searchable nodes, and PR handoff
 
 ## Usage Rule
 

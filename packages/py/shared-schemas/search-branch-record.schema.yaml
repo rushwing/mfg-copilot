@@ -1,0 +1,54 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: SearchBranchRecord
+type: object
+required:
+  - branch_id
+  - hypothesis
+  - attempt
+  - score
+  - status
+properties:
+  branch_id:
+    type: string
+  parent_branch_id:
+    type:
+      - string
+      - "null"
+  workflow_id:
+    type: string
+  phase_id:
+    type: string
+  hypothesis:
+    type: string
+  attempt:
+    type: integer
+    minimum: 1
+  score:
+    type: number
+  status:
+    type: string
+    enum:
+      - proposed
+      - running
+      - failed
+      - superseded
+      - selected
+      - discarded
+  failure_reason:
+    type:
+      - string
+      - "null"
+  artifacts:
+    type: array
+    items:
+      type: string
+  selected:
+    type: boolean
+  created_at:
+    type: string
+    format: date-time
+  closed_at:
+    type:
+      - string
+      - "null"
+    format: date-time

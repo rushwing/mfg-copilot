@@ -22,9 +22,14 @@ That keeps `services/api-gateway/`, `services/orchestrator/`, and frontend appro
 Scaffolded contracts:
 - `approval-envelope.schema.yaml`
 - `retrieval-response.schema.yaml`
+- `search-branch-record.schema.yaml`
+- `pr-review-packet.schema.yaml`
 
 Planned next contracts:
 - orchestrator handoff envelopes
 - agent request and response envelopes
-- review packet and release-gate summaries
 - future A2A task payloads
+
+Workflow rule:
+- phase-based workflows should persist searchable-branch metadata through `search-branch-record.schema.yaml`
+- the final `pr_packet_and_handoff` phase should emit `pr-review-packet.schema.yaml`
