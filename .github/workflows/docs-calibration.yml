@@ -1,0 +1,19 @@
+name: Documentation Calibration
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  progressive-disclosure:
+    name: Progressive Disclosure Calibration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run documentation navigation calibration
+        run: bash scripts/check-progressive-disclosure.sh

@@ -1,19 +1,25 @@
 # MFG Copilot
 
-Monorepo scaffold for a multi-agent aggregation and management platform.
+Multi-agent aggregation and management platform for manufacturing workflows.
 
-This layout follows a pragmatic community-style split:
+This repo now follows a strict progressive-disclosure model inspired by `deer-flow`:
+- root docs stay short and orienting
+- directory `README.md` files act as navigation hubs
+- deep design only appears one layer down, when a reader actually needs it
+
+## Start Here
+
+- New to the repo: [Docs Home](./docs/README.md)
+- Need the fastest architecture brief: [Architecture Overview](./docs/architecture/overview.md)
+- Need implementation scope and backlog shape: [Tasks Home](./tasks/README.md)
+
+## Repo Shape
+
 - `apps/` for user-facing React applications
 - `services/` for FastAPI-based platform and agent services
 - `packages/` for shared Python and TypeScript libraries
-- `infra/` for Docker and Kubernetes delivery assets
+- `infra/` for Docker and Kubernetes assets
 - `observability/` for Prometheus, LangSmith, and Elasticsearch integrations
-- `harness/` for Harness Engineering scenarios, evals, and repeatable system checks
-- `docs/architecture/` for architecture source docs and diagrams
-
-Start reading here:
-- [Architecture Index](./docs/architecture/README.md)
-- [Project Layout](./docs/architecture/project-layout.md)
-- [Testing And Evals Strategy](./docs/architecture/testing-and-evals.md)
-- [System Architecture Source](./docs/architecture/system-architecture.md)
-- [System Architecture Diagram](./docs/architecture/diagrams/system-architecture.svg)
+- `harness/` for evals, standards, and repeatable system checks
+- `docs/` for architecture, ADRs, and operating guidance
+- `tasks/` for repo-native phase and feature requirements

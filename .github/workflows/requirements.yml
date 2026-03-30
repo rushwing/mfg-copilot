@@ -1,0 +1,20 @@
+name: Requirements
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  requirements:
+    name: Requirement Calibration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run requirement calibration
+        run: bash scripts/check-requirements.sh
+
