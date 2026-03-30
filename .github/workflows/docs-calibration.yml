@@ -17,3 +17,6 @@ jobs:
 
       - name: Run documentation navigation calibration
         run: bash scripts/check-progressive-disclosure.sh
+
+      - name: Run PR review packet layout calibration
+        run: bash scripts/check-pr-review-packet-layout.sh

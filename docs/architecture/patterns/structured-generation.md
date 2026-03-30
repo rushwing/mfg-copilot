@@ -134,3 +134,6 @@ Recommended early two-step adopters:
 - PR review packets
 - RCA summaries
 - deployment explanation artifacts
+
+For the reviewer-facing layout rules that sit on top of the packet contract, see:
+- [`pr-review-packet-visual-language.md`](./pr-review-packet-visual-language.md)

@@ -144,6 +144,10 @@ The packet can use a two-step generation mode:
 1. draft an explanation in prose or markdown
 2. convert it into a structured review-packet schema
 
+For reviewer-facing layout, table conventions, and visual requirements, see:
+- [`pr-review-packet-visual-language.md`](./pr-review-packet-visual-language.md)
+- [`pr-review-packet-example.md`](./pr-review-packet-example.md)
+
 ## Operational guidance
 
 Trace metadata for phase-graph workflows should include:

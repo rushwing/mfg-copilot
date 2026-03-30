@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="920" viewBox="0 0 1360 920" role="img" aria-labelledby="title desc">
+  <title id="title">PR Review Packet Layout</title>
+  <desc id="desc">Diagram showing the reviewer-facing section order and formatting rules for PR review packets.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+    <linearGradient id="table" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dcfce7"/>
+      <stop offset="100%" stop-color="#bbf7d0"/>
+    </linearGradient>
+    <linearGradient id="risk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <linearGradient id="visual" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fae8ff"/>
+      <stop offset="100%" stop-color="#e9d5ff"/>
+    </linearGradient>
+    <style>
+      .bg { fill: url(#bg); }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 18; }
+      .hero { fill: url(#hero); stroke: #93c5fd; stroke-width: 2; rx: 20; }
+      .table { fill: url(#table); stroke: #86efac; stroke-width: 2; rx: 18; }
+      .risk { fill: url(#risk); stroke: #fcd34d; stroke-width: 2; rx: 18; }
+      .visual { fill: url(#visual); stroke: #d8b4fe; stroke-width: 2; rx: 18; }
+      .title { font: 700 30px 'Helvetica Neue', Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 500 16px 'Helvetica Neue', Arial, sans-serif; fill: #334155; }
+      .section { font: 700 18px 'Helvetica Neue', Arial, sans-serif; fill: #0f172a; }
+      .body { font: 500 14px 'Helvetica Neue', Arial, sans-serif; fill: #334155; }
+      .small { font: 600 12px 'Helvetica Neue', Arial, sans-serif; fill: #475569; }
+      .badge { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 12; }
+      .line { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 8 6; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1360" height="920" class="bg"/>
+
+  <text x="64" y="68" class="title">PR Review Packet Layout</text>
+  <text x="64" y="98" class="subtitle">Reviewer scan order favors summary, grouped tables, explicit risks, and one meaningful visual before appendix material.</text>
+
+  <rect x="56" y="132" width="1248" height="132" class="hero"/>
+  <text x="88" y="172" class="section">1. Executive Summary</text>
+  <text x="88" y="202" class="body">One short paragraph or up to three bullets. Explain intent, why it matters, and the highest-signal change.</text>
+  <text x="88" y="226" class="small">Keep under 120 words unless risk justifies more context.</text>
+  <rect x="984" y="164" width="272" height="60" class="badge"/>
+  <text x="1008" y="189" class="small">2. Scope And References</text>
+  <text x="1008" y="210" class="small">REQs, ADRs, and workflow phase</text>
+
+  <line x1="680" y1="264" x2="680" y2="322" class="line"/>
+
+  <rect x="56" y="322" width="596" height="190" class="table"/>
+  <text x="84" y="360" class="section">3. Changed Areas</text>
+  <text x="84" y="388" class="body">Use a table grouped by impact area instead of a file-by-file changelog.</text>
+  <text x="84" y="418" class="small">Columns: Area / Impact / Primary files</text>
+  <rect x="84" y="438" width="540" height="46" class="badge"/>
+  <text x="108" y="466" class="small">Prefer grouped impact language over implementation-level detail.</text>
+
+  <rect x="708" y="322" width="596" height="190" class="table"/>
+  <text x="736" y="360" class="section">4. Validation Status</text>
+  <text x="736" y="388" class="body">Surface pass, fail, and skipped checks explicitly with one strong evidence pointer per row.</text>
+  <text x="736" y="418" class="small">Columns: Check / Status / Evidence</text>
+  <rect x="736" y="438" width="540" height="46" class="badge"/>
+  <text x="760" y="466" class="small">If something is skipped, show it before the reviewer has to ask.</text>
+
+  <line x1="354" y1="512" x2="354" y2="566" class="line"/>
+  <line x1="1006" y1="512" x2="1006" y2="566" class="line"/>
+
+  <rect x="56" y="566" width="596" height="154" class="risk"/>
+  <text x="84" y="604" class="section">5. Risk Matrix</text>
+  <text x="84" y="632" class="body">Make severity visually scannable and keep concern/mitigation language reviewer-centered.</text>
+  <text x="84" y="662" class="small">Columns: Category / Severity / Reviewer concern / Mitigation</text>
+  <rect x="84" y="682" width="540" height="24" class="badge"/>
+  <text x="108" y="699" class="small">Low / medium / high only.</text>
+
+  <rect x="708" y="566" width="596" height="154" class="panel"/>
+  <text x="736" y="604" class="section">6. Reviewer Checklist</text>
+  <text x="736" y="632" class="body">Three to six concrete confirmation points. Keep them decision-oriented, not descriptive.</text>
+  <text x="736" y="662" class="small">Use checklist bullets, not paragraphs.</text>
+  <rect x="736" y="682" width="540" height="24" class="badge"/>
+  <text x="760" y="699" class="small">Ask what the reviewer should verify, not what the author already knows.</text>
+
+  <line x1="680" y1="720" x2="680" y2="770" class="line"/>
+
+  <rect x="56" y="770" width="820" height="108" class="visual"/>
+  <text x="84" y="808" class="section">7. Architecture Or Control-Flow Visual</text>
+  <text x="84" y="836" class="body">Required when the PR changes workflow, routing, control flow, or service boundaries.</text>
+  <text x="84" y="860" class="small">Use Mermaid for quick flows. Use SVG for higher-fidelity, reusable diagrams.</text>
+
+  <rect x="918" y="770" width="386" height="108" class="panel"/>
+  <text x="946" y="808" class="section">8. Optional Appendix</text>
+  <text x="946" y="836" class="body">Extra traces, screenshots, or logs go here.</text>
+  <text x="946" y="860" class="small">Do not bury core review decisions in the appendix.</text>
+</svg>
