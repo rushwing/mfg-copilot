@@ -41,6 +41,16 @@ Preferred order:
 2. Outlines-based constrained decoding as a portability layer or fallback
 3. free-form generation plus validation only when neither of the above is practical
 
+### Reasoning-heavy task rule
+
+Do not force direct constrained decoding on every structured task.
+
+For reasoning-heavy or synthesis-heavy outputs, prefer a two-step pattern:
+1. generate the best natural-language or markdown draft first
+2. convert that draft into the required structured schema in a second step
+
+Use direct constrained decoding mainly for low-entropy control-plane artifacts where correctness of shape matters more than expressive reasoning.
+
 ### Input handling rule
 
 Do not use Outlines to constrain raw human input at the UI boundary.
@@ -64,6 +74,12 @@ Do not require structured generation for:
 - exploratory brainstorming
 - long-form drafting where only the final artifact envelope needs structure
 
+Preferred two-step candidates:
+- RCA drafts
+- deployment-plan explanations
+- reviewer-facing summaries
+- long evidence narratives that later need structured extraction
+
 ## Consequences
 
 Benefits:
@@ -71,11 +87,13 @@ Benefits:
 - future A2A integration can reuse repository-owned schemas
 - review and audit artifacts become comparable across runs
 - provider changes do not force contract redesign
+- reasoning quality can stay high by avoiding unnecessary format pressure on first-pass generation
 
 Costs:
 - prompts and schemas require tighter governance
 - constrained decoding can reduce flexibility for poorly scoped tasks
 - some providers and model paths may need fallback logic
+- two-step pipelines add an extra transformation stage and validation surface
 
 ## Provider strategy
 
@@ -87,8 +105,23 @@ Use provider-native structured generation first where available.
 
 Outlines is not the canonical contract layer. The schema remains canonical; Outlines is one possible enforcement mechanism.
 
+## Practical split
+
+Use direct structured generation for:
+- approval states
+- routing decisions
+- tool invocation envelopes
+- retrieval evidence references
+
+Use two-step generation for:
+- reasoning-rich summaries
+- RCA narratives
+- PR review packets with both prose explanation and structured metadata
+- any artifact where direct format pressure measurably harms answer quality
+
 ## Follow-up
 
 - keep adding shared schemas before implementation logic hardcodes payload shapes
 - include decoder mode and validation outcome in trace metadata for structured generations
 - design future A2A and review-packet payloads against shared schemas rather than ad hoc markdown
+- allow workflows to declare `generation_mode` such as `direct_structured` or `draft_then_structure`

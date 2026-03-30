@@ -10,6 +10,12 @@ Use schema-constrained generation for machine-consumed artifacts.
 
 That split keeps the UX natural while making multi-agent coordination reliable.
 
+For many reasoning-heavy tasks, the best implementation is:
+- first produce a strong natural-language or markdown draft
+- then transform that draft into a structured artifact
+
+This avoids forcing the model to reason and serialize into a rigid schema at the same time.
+
 ## Where to use it
 
 Good candidates:
@@ -23,6 +29,11 @@ Poor candidates:
 - raw user prompts
 - open-ended discovery chat
 - long narrative answers shown directly to humans
+
+Two-step candidates:
+- RCA drafts that later need typed findings
+- summary or review outputs that mix prose explanation with machine-readable fields
+- evidence narratives that later need extraction into approval or audit envelopes
 
 ## Input rule
 
@@ -46,6 +57,20 @@ When another service, agent, or review workflow consumes the result, the produce
 
 If a human-facing explanation is also needed, include it as a field inside the structured envelope instead of making the whole artifact unstructured.
 
+## Direct vs two-step
+
+Use direct structured generation when:
+- the target shape is small and deterministic
+- values are short and typed
+- there is little creative or multi-hop reasoning
+- invalid shape is more costly than reduced expressiveness
+
+Use draft-then-structure when:
+- the task needs synthesis, comparison, or nuanced explanation
+- the target schema contains long text fields
+- direct constrained decoding noticeably hurts answer quality
+- a human may review the draft before structured conversion
+
 ## Decoder strategy
 
 Use this order:
@@ -54,6 +79,10 @@ Use this order:
 2. provider-native grammar support
 3. Outlines constrained decoding
 4. free-form generation with strict post-validation
+
+For reasoning-heavy tasks, interpret step 4 as:
+- free-form draft generation
+- followed by a schema-conversion pass with validation and optional repair
 
 ## How Outlines fits
 
@@ -66,6 +95,7 @@ Outlines is a poor fit when:
 - the provider already offers stronger native structured-output support
 - the artifact is mostly prose and only lightly structured
 - decoding cost or latency is more important than portability
+- reasoning quality drops because the schema is over-constraining first-pass generation
 
 ## Operational guidance
 
@@ -73,6 +103,7 @@ For structured generations, traces should record:
 - `schema_id`
 - `schema_version`
 - `decoder_mode`
+- `generation_mode`
 - `validation_passed`
 - `repair_count`
 
@@ -82,6 +113,10 @@ Recommended `decoder_mode` values:
 - `outlines_json`
 - `outlines_regex`
 - `freeform_validated`
+
+Recommended `generation_mode` values:
+- `direct_structured`
+- `draft_then_structure`
 
 ## Suggested early rollout
 
@@ -94,3 +129,8 @@ Later phases can extend the same pattern to:
 - A2A task payloads
 - review packets
 - execution evidence packages
+
+Recommended early two-step adopters:
+- PR review packets
+- RCA summaries
+- deployment explanation artifacts
