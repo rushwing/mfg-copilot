@@ -4,7 +4,7 @@ title: Foundation and Platform Readiness
 status: draft
 priority: P0
 last_updated: 2026-03-31
-feature_refs: [REQ-001, REQ-002, REQ-003, REQ-004, REQ-005, REQ-018, REQ-019, REQ-020]
+feature_refs: [REQ-001, REQ-002, REQ-003, REQ-004, REQ-005]
 ---
 
 # Goal
