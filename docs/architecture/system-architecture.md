@@ -1,3 +1,12 @@
+# NVIDIA MFG Copilot — System Architecture
+
+Product Scope / High-Level Architecture
+
+---
+
+## Component Diagram
+
+```
 +--------------------------------------------------------------------------------------+
 |                               NVIDIA MFG COPILOT                                     |
 |                          Product Scope / High-Level Architecture                     |
@@ -64,88 +73,106 @@ Users
                         | Local: SGLang     |  +--------------------------------+  +------------------+
                         | Remote: Commercial|
                         +-------------------+
+```
 
---------------------------------------------------------------------------------------------------------
-Repo Boundary
---------------------------------------------------------------------------------------------------------
+---
 
-Repo 1: mfg-project-lifecycle-kb
-  |
-  +-- phase/checkpoint templates
-  +-- glossary
-  +-- i18n
-  +-- frontmatter schema
-  +-- checkpoint index
-  +-- doc index
-  +-- versioned KB release artifacts
+## Repository Boundaries
 
-Repo 2: mfg-copilot-monorepo
-  |
-  +-- apps/
-  |    +-- portal-web
-  |    +-- agent-router
-  |    +-- doc-copilot
-  |    +-- deploy-agent
-  |    +-- ops-agent
-  |
-  +-- packages/
-       +-- agent-core
-       +-- rag-core
-       +-- kb-client
-       +-- model-gateway
-       +-- auth-rbac
-       +-- approval-engine
-       +-- tool-mes
-       +-- tool-distribution
-       +-- tool-observability
-       +-- shared-schemas
+### Repo 1: `mfg-project-lifecycle-kb`
 
---------------------------------------------------------------------------------------------------------
-Primary Flows
---------------------------------------------------------------------------------------------------------
+```
+mfg-project-lifecycle-kb/
+├── phase/checkpoint templates
+├── glossary
+├── i18n
+├── frontmatter schema
+├── checkpoint index
+├── doc index
+└── versioned KB release artifacts
+```
 
-1. Document Copilot Flow
-   User -> Portal -> Router -> Doc Copilot
-        -> KB Retriever + Project/Product DB
-        -> Structured generation
-        -> Validation against template schema / required sections
-        -> Output document / summary / checklist draft
+### Repo 2: `mfg-copilot-monorepo`
 
-2. Deployment Agent Flow
-   User -> Portal -> Router -> Deploy Agent
-        -> Read site/station context
-        -> Generate deployment plan
-        -> Approval gate
-        -> Execute tools via MES / distribution platform
-        -> Collect results
-        -> Produce IQ/OQ evidence + audit log
+```
+mfg-copilot-monorepo/
+├── apps/
+│   ├── portal-web
+│   └── agent-router
+├── services/
+│   ├── doc-copilot
+│   ├── deploy-agent
+│   └── ops-agent
+└── packages/
+    ├── agent-core
+    ├── rag-core
+    ├── kb-client
+    ├── model-gateway
+    ├── auth-rbac
+    ├── approval-engine
+    ├── tool-mes
+    ├── tool-distribution
+    ├── tool-observability
+    └── shared-schemas
+```
 
-3. Ops Agent Flow
-   User / alert -> Router -> Ops Agent
-                -> Gather logs / metrics / build data / known issues
-                -> Multi-agent triage
-                -> Suggest fix or escalate
-                -> Optional bug-fix branch via commercial LLM
-                -> Summary / RCA / FA input
+---
 
---------------------------------------------------------------------------------------------------------
-Recommended Scope by Phase
---------------------------------------------------------------------------------------------------------
+## Primary Flows
 
-Phase 1
-  - Portal + Router
-  - Doc Copilot
-  - KB integration
-  - Project DB integration
-  - Daily/weekly/monthly summaries
+### 1. Document Copilot Flow
 
-Phase 2
-  - Deploy Agent
-  - Approval workflow
-  - MES / SFC / software distribution adapters
+```
+User → Portal → Router → Doc Copilot
+     → KB Retriever + Project/Product DB
+     → Structured generation
+     → Validation against template schema / required sections
+     → Output document / summary / checklist draft
+```
 
-Phase 3
-  - Ops Agent team
-  - Triage + diagnostics + FA + bug-fix workflow
-  - Stronger observability and guardrails
+### 2. Deployment Agent Flow
 
+```
+User → Portal → Router → Deploy Agent
+     → Read site/station context
+     → Generate deployment plan
+     → Approval gate
+     → Execute tools via MES / distribution platform
+     → Collect results
+     → Produce IQ/OQ evidence + audit log
+```
+
+### 3. Ops Agent Flow
+
+```
+User / alert → Router → Ops Agent
+             → Gather logs / metrics / build data / known issues
+             → Multi-agent triage
+             → Suggest fix or escalate
+             → Optional bug-fix branch via commercial LLM
+             → Summary / RCA / FA input
+```
+
+---
+
+## Recommended Scope by Phase
+
+### Phase 1
+
+- Portal + Router
+- Doc Copilot
+- KB integration
+- Project DB integration
+- Daily / weekly / monthly summaries
+
+### Phase 2
+
+- Deploy Agent
+- Approval workflow
+- MES / SFC / software distribution adapters
+
+### Phase 3
+
+- Ops Agent team
+- Triage + diagnostics + FA + bug-fix workflow
+- Stronger observability and guardrails
