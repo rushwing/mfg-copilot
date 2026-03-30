@@ -2,6 +2,8 @@
 
 This repository should manage implementation-facing requirements as markdown files in Git, with code review through pull requests and without duplicating GitHub review state inside the repo.
 
+It should also expose those requirements through progressive disclosure so readers and coding agents do not load the entire planning corpus at once.
+
 ## Recommended model
 
 - high-level architecture and roadmap stay under `docs/architecture/`
@@ -17,6 +19,13 @@ It combines two useful patterns:
 - community docs-as-code and RFC-style practices, where content lives in Git, is reviewed by PR, and is validated like code
 
 ## Design principles
+
+### 0. Progressive disclosure first
+
+- root docs should point to index docs, not to every detailed planning artifact
+- `tasks/README.md` should route readers to phase and feature indexes before individual stories
+- detailed design should be loaded only when a story or review actually needs it
+- requirement files should stay implementation-focused and avoid re-explaining whole-system architecture
 
 ### 1. Single source of truth for requirement content
 
@@ -50,8 +59,11 @@ It combines two useful patterns:
 
 ```text
 tasks/
+  README.md               # tasks entry point
   phases/                # phase contracts and scope boundaries
+    README.md            # phase index
   features/              # feature stories (REQ-xxx)
+    README.md            # feature index
   archive/
     done/
     cancelled/

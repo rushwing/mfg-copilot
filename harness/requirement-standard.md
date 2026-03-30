@@ -19,6 +19,13 @@ This standard defines how implementation-facing requirements are managed inside 
 
 ## 2. Core rules
 
+### 2.0 Documentation must use progressive disclosure
+
+- root and directory `README.md` files should act as navigation hubs
+- summary docs should route readers to the next layer instead of duplicating deep content
+- detailed architecture belongs in dedicated docs, not repeated inside every story
+- feature stories should stay narrowly implementation-facing
+
 ### 2.1 The repo is the source of truth for requirement content
 
 - feature scope, acceptance criteria, dependencies, and phase alignment must live in the repo
@@ -54,8 +61,11 @@ Each feature story must include:
 
 ```text
 tasks/
+  README.md                # task-system entry point
   phases/                 # phase contracts
+    README.md             # phase index
   features/               # REQ-xxx feature stories
+    README.md             # feature index
   archive/
     done/
     cancelled/
@@ -149,8 +159,15 @@ Allowed values:
 - `harness/` validates agent behavior and regression quality
 - story files should reference expected validation approach, but not duplicate the full test implementation
 
+## 8.1 Relationship to architecture docs
+
+- phase and feature files should link to architecture rationale rather than copy large design sections
+- architecture indexes should route to stories, not restate their acceptance criteria in full
+- if a requirement needs more than story-sized explanation, add a dedicated design doc and link it
+
 ## 9. Calibration
 
 - `bash scripts/check-requirements.sh` is the repo-native calibration script for requirement files
 - it validates frontmatter completeness, enum values, required sections, and phase/story cross-references
 - the script should run in GitHub Actions so malformed stories do not silently enter the main branch
+- `bash scripts/check-progressive-disclosure.sh` should validate the required navigation hubs and keep root entry points from linking directly to too many deep docs
