@@ -1,0 +1,34 @@
+---
+phase_id: phase-0
+title: Foundation and Platform Readiness
+status: draft
+priority: P0
+last_updated: 2026-03-30
+feature_refs: [REQ-001, REQ-002, REQ-003, REQ-004, REQ-005]
+---
+
+# Goal
+
+Establish the platform baseline required to deliver Phase 1 safely and repeatably.
+
+# In Scope
+
+- repo-native requirement management
+- local dev loop and service skeletons
+- shared schemas and trace contracts
+- retrieval foundation and KB ingestion baseline
+- model routing and safety policy baseline
+
+# Out of Scope
+
+- user-visible deployment execution
+- ops triage workflows
+- broad enterprise write-back
+
+# Exit Criteria
+
+- core services can be bootstrapped locally
+- shared schemas and trace metadata are agreed
+- retrieval and model-routing baselines are defined
+- CI, test, and eval conventions are documented and runnable
+
