@@ -40,16 +40,19 @@ file absent — not when it errors. An error from a present script is a failure.
 
 ## Step 3 — Read key changed files
 
-Read a file when the diff alone is insufficient:
+Read a file when the diff alone is insufficient. Prioritize files most likely to contain regressions or behavior changes:
 
 | File type | What to check |
 | --- | --- |
+| Changed service / agent / orchestrator code | Correctness of logic, control flow, error handling; whether behavior matches intent stated in the PR description and linked REQs |
+| Changed API routes or tool adapters | Contract consistency, input validation, side-effect safety |
+| Changed workflow or phase-graph code | Correct phase transitions, HITL gate placement, trace field propagation |
 | New `.schema.yaml` | `additionalProperties: false` present, `required` list complete, enum coverage |
 | New `scripts/check-*.py` / `*.sh` | Hardcoded strings that couple docs to the script (fragile cross-refs) |
 | Changed `tasks/features/REQ-*.md` | Valid status/workflow_phase transition, owner not unassigned when in_progress or review |
 | New contract / pattern docs | Cross-reference completeness, link targets exist |
 
-Skip files whose diff is fully self-explanatory.
+Skip files whose diff is fully self-explanatory and carries no behavior change risk.
 
 ## Step 4 — Cross-check linked REQs
 
@@ -70,9 +73,17 @@ and concision limits, then output the packet.
 **Verdict: Approve** | **Verdict: Request Changes**
 ```
 
-Use **Request Changes** only when:
+Use **Request Changes** when any of the following are true:
+
+Substantive findings (take priority — green validators do not override these):
+- incorrect logic, behavioral regression, or missing error handling in changed code
+- a workflow, routing, or control-flow change that is unsafe or contradicts the linked REQ
+- a security issue (injection, unvalidated input, improper access control, unsafe data handling)
+- a contract or API change that breaks or silently alters downstream behavior
+
+Process/schema findings:
 - a validator fails or exits non-zero
-- a required schema field is missing
+- a required schema field is missing or `additionalProperties: false` absent on a new schema
 - a REQ transition is invalid
 - a mandatory packet section is absent
 
