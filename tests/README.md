@@ -7,3 +7,13 @@ Repository-level tests live here.
 - `contract/`: API and gRPC compatibility tests
 - `e2e/`: user-flow and workflow tests
 - `load/`: throughput and concurrency tests
+
+Recommended tooling:
+- `pytest` for backend unit, integration, and workflow tests
+- Playwright for browser-facing E2E
+- Schemathesis for OpenAPI contract and fuzz testing
+- `testcontainers-python` for infra-backed integration tests
+
+Practical split:
+- `tests/e2e/` should include browser E2E driven by Playwright
+- non-UI service-to-service workflows should stay in pytest-based integration or workflow suites

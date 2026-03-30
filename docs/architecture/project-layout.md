@@ -88,6 +88,7 @@ mfg-copilot/
 - `apps/portal-web/` is the single React.js + Tailwind CSS entry point for operators, approvers, and end users.
 - `packages/ts/ui/` holds reusable components so the app does not become a giant uncontrolled frontend.
 - `packages/ts/api-client/` keeps transport logic out of page code.
+- Browser automation and user-facing E2E should standardize on Playwright.
 
 ### Backend
 
@@ -134,6 +135,16 @@ Data ownership convention:
 - All critical agent flows should be backed by harness scenarios, eval datasets, and replayable reports.
 - This keeps regressions visible before production rollout and aligns well with agentic workflows.
 - Harness runs should retain `langsmith_run_id` linkage early, before broad agent rollout makes trace correlation painful to retrofit.
+- DeepEval should be the default offline agent-eval runner for CI-oriented regression checks.
+- OpenEvals can be added selectively where narrow evaluator libraries or trajectory checks are helpful.
+
+### Test framework defaults
+
+- Frontend E2E: Playwright
+- Backend service tests: pytest
+- Async backend tests: httpx AsyncClient
+- Infra-backed integration tests: testcontainers-python
+- API contract and fuzz tests: Schemathesis
 
 ## Review follow-ups already encoded in the layout
 
@@ -143,6 +154,7 @@ Data ownership convention:
 - Model routing rules should be versioned under `config/model-routing/`.
 - Harness and LangSmith correlation should be treated as a required traceability feature, not an optional later add-on.
 - Database ownership and MySQL integration boundaries are defined in ADR 0002.
+- Testing and eval tool selection is defined in `testing-and-evals.md`.
 
 ## Placement of the existing docs
 

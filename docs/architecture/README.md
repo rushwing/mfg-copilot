@@ -6,9 +6,11 @@ Contents:
 - `system-architecture.md`: source architecture notes and capability breakdown
 - `diagrams/system-architecture.svg`: rendered high-level system diagram
 - `project-layout.md`: recommended repo layout for the preferred stack
+- `testing-and-evals.md`: recommended testing and agent-eval stack
 - `patterns/`: agent workflow and planning pattern notes
 
 Suggested doc flow:
 1. Read `system-architecture.md`
 2. Open `diagrams/system-architecture.svg`
 3. Use `project-layout.md` as the implementation scaffold
+4. Use `testing-and-evals.md` to standardize test and eval choices before coding

@@ -14,5 +14,6 @@ This layout follows a pragmatic community-style split:
 Start reading here:
 - [Architecture Index](./docs/architecture/README.md)
 - [Project Layout](./docs/architecture/project-layout.md)
+- [Testing And Evals Strategy](./docs/architecture/testing-and-evals.md)
 - [System Architecture Source](./docs/architecture/system-architecture.md)
 - [System Architecture Diagram](./docs/architecture/diagrams/system-architecture.svg)
