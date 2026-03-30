@@ -13,7 +13,9 @@ Recommended tooling:
 - Playwright for browser-facing E2E
 - Schemathesis for OpenAPI contract and fuzz testing
 - `testcontainers-python` for infra-backed integration tests
+- `k6` for load and concurrency testing
 
 Practical split:
 - `tests/e2e/` should include browser E2E driven by Playwright
 - non-UI service-to-service workflows should stay in pytest-based integration or workflow suites
+- `tests/load/` should hold k6 scenarios for API, orchestrator, and toolhub concurrency checks

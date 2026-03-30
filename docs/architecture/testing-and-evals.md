@@ -74,6 +74,42 @@ Examples:
 
 This split keeps browser E2E focused and fast enough, while still giving deep workflow coverage.
 
+### Tests versus Harness
+
+Keep `tests/` and `harness/` separate on purpose.
+
+- `tests/` is for service and application correctness
+- `harness/` is for agent behavior replay, evaluation, and regression over realistic datasets
+
+Use `tests/` for:
+- unit, integration, contract, browser E2E, and load testing
+- validating code behavior, route behavior, persistence behavior, and API contracts
+
+Use `harness/` for:
+- DeepEval or similar agent evaluations
+- golden dataset replay
+- prompt, retrieval, planning, and agent-trajectory regression checks
+- benchmark-style comparisons across model routing or agent strategies
+
+Practical rule:
+- if the test is asserting software behavior of a service, it belongs in `tests/`
+- if the test is judging quality or regression of agent behavior over scenarios or datasets, it belongs in `harness/`
+
+### Load testing
+
+- Primary: `k6`
+
+Why:
+- strong fit for API, workflow, and adapter concurrency testing
+- simple scripting model for CI and containerized execution
+- good match for load risks around `toolhub`, approval APIs, and orchestrator fan-out paths
+
+Use it for:
+- `tests/load/`
+- FastAPI endpoint throughput and latency baselines
+- toolhub adapter concurrency checks for MES / SFC style integrations
+- pre-release performance smoke tests in shared environments
+
 ## Agent eval recommendation
 
 ### Recommended default
@@ -129,6 +165,7 @@ Do not treat it as the only evaluation system for the whole platform unless the 
 - Async API coverage: httpx AsyncClient
 - Infra-backed integration: testcontainers-python
 - API contract and fuzz: Schemathesis
+- Load testing: k6
 
 ### Agent evaluation
 
@@ -136,4 +173,3 @@ Do not treat it as the only evaluation system for the whole platform unless the 
 - Optional targeted helper: OpenEvals
 - Observability and run correlation: LangSmith
 - Not recommended right now: adding Langfuse in parallel with LangSmith as another primary platform
-
