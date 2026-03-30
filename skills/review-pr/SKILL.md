@@ -1,9 +1,27 @@
 ---
 name: review-pr
-description: "Full PR review workflow for the mfg-copilot repository. Fetches PR metadata and diff via gh, checks out the branch, runs all repo validators, cross-checks linked REQ files, and produces a structured reviewer-facing packet with a clear verdict. Trigger when the user says: 'Review PR10', 'Review PR #N', '/review-pr N', or 'review the PR' (when a PR number is in context). Do NOT trigger for general code review questions unrelated to a numbered PR."
+description: "Explicit human-review workflow for numbered PRs in the mfg-copilot repository. Fetches PR metadata and diff via gh, checks out the branch, runs repo validators, cross-checks linked REQ files, and produces a structured reviewer-facing packet with a clear verdict. Trigger only when the user explicitly requests human review, for example: '人工审核 PR10', '人工 review PR #10', or '用 review-pr skill review PR10'. Do NOT trigger for default LLM PR review requests such as 'Review PR10' unless the user explicitly asks for human review or names this skill."
 ---
 
 # PR Review Workflow
+
+## Trigger Rule
+
+This skill is opt-in only.
+
+Trigger it only when the user explicitly asks for human review, for example:
+
+- `人工审核 PR10`
+- `人工 review PR10`
+- `用 review-pr skill review PR10`
+
+Do not trigger it for default LLM review requests such as:
+
+- `Review PR10`
+- `review PR #10`
+- `看一下这个 PR`
+
+unless the user also explicitly asks for human review or explicitly names `review-pr`.
 
 ## Step 1 — Fetch PR metadata and diff
 

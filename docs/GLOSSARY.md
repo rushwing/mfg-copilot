@@ -160,6 +160,14 @@ A gate outcome meaning the PR has enough packet or exemption metadata to enter h
 
 A stricter gate outcome meaning the PR has already met the repository's packet, validation, and exemption requirements for merge.
 
+### human-review mode
+
+An explicitly requested review mode where the reviewer should produce a structured, reviewer-facing packet and follow the heavier `review-pr` workflow.
+
+In this repository, human-review mode is opt-in.
+
+Default LLM PR review is not the same thing as human-review mode and should not automatically trigger the `review-pr` skill.
+
 ## Platform Terms
 
 ### orchestrator
