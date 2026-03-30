@@ -1,0 +1,60 @@
+version: 1
+
+task_classes:
+  - id: doc_generation
+    description: Structured document drafting and template completion
+  - id: retrieval_qa
+    description: Knowledge-grounded question answering with citations
+  - id: deployment_planning
+    description: Plan creation for site, station, and deployment workflows
+  - id: operational_triage
+    description: Incident, build, or environment diagnosis
+  - id: approval_summarization
+    description: Human-readable summaries for approval checkpoints
+  - id: code_fix
+    description: Optional bug-fix or patch generation tasks
+
+model_profiles:
+  - id: local_fast
+    provider: sglang
+    intent: low-cost low-latency local execution
+  - id: local_reasoning
+    provider: sglang
+    intent: stronger local reasoning for internal workloads
+  - id: remote_premium
+    provider: remote
+    intent: highest-quality remote reasoning path
+  - id: remote_coding
+    provider: remote
+    intent: coding-specialized remote model path
+
+routes:
+  - task_class: doc_generation
+    default_profile: local_reasoning
+    fallback_profile: remote_premium
+  - task_class: retrieval_qa
+    default_profile: local_fast
+    fallback_profile: remote_premium
+  - task_class: deployment_planning
+    default_profile: local_reasoning
+    fallback_profile: remote_premium
+  - task_class: operational_triage
+    default_profile: local_reasoning
+    fallback_profile: remote_premium
+  - task_class: approval_summarization
+    default_profile: local_fast
+    fallback_profile: local_reasoning
+  - task_class: code_fix
+    default_profile: remote_coding
+    fallback_profile: remote_premium
+
+policy_overrides:
+  pii_restricted:
+    allow_providers:
+      - sglang
+  export_controlled:
+    allow_providers:
+      - sglang
+  requires_high_confidence:
+    prefer_profile: remote_premium
+
