@@ -73,8 +73,9 @@ phase_to_file() {
   printf "tasks/phases/PHASE-%03d.md" "$n"
 }
 
-FEATURE_REQUIRED_FIELDS=("req_id" "title" "status" "priority" "phase" "epic" "owner" "depends_on" "scope" "acceptance_summary")
+FEATURE_REQUIRED_FIELDS=("req_id" "title" "status" "workflow_phase" "priority" "phase" "epic" "owner" "depends_on" "scope" "acceptance_summary")
 FEATURE_STATUS_ENUM="draft ready in_progress blocked review done cancelled"
+FEATURE_WORKFLOW_PHASE_ENUM="requirement_assessment test_design implementation review_and_repair pr_packet_and_handoff"
 FEATURE_SCOPE_ENUM="runtime ui data infra observability docs harness"
 FEATURE_PRIORITY_ENUM="P0 P1 P2 P3"
 FEATURE_OWNER_ENUM="unassigned human codex claude_code"
@@ -125,12 +126,14 @@ for req_file in "${REQ_FILES[@]}"; do
   fi
 
   status="$(get_field "$req_file" "status")"
+  workflow_phase="$(get_field "$req_file" "workflow_phase")"
   priority="$(get_field "$req_file" "priority")"
   scope="$(get_field "$req_file" "scope")"
   owner="$(get_field "$req_file" "owner")"
   phase="$(get_field "$req_file" "phase")"
 
   [[ -n "$status" ]] && check_enum "$status" "$FEATURE_STATUS_ENUM" "${req_id}.status"
+  [[ -n "$workflow_phase" ]] && check_enum "$workflow_phase" "$FEATURE_WORKFLOW_PHASE_ENUM" "${req_id}.workflow_phase"
   [[ -n "$priority" ]] && check_enum "$priority" "$FEATURE_PRIORITY_ENUM" "${req_id}.priority"
   [[ -n "$scope" ]] && check_enum "$scope" "$FEATURE_SCOPE_ENUM" "${req_id}.scope"
   [[ -n "$owner" ]] && check_enum "$owner" "$FEATURE_OWNER_ENUM" "${req_id}.owner"
@@ -195,6 +198,14 @@ for req_file in "${REQ_FILES[@]}"; do
 
   if [[ "$status" == "in_progress" && "$owner" == "unassigned" ]]; then
     fail "${req_id}: status=in_progress but owner=unassigned"
+  fi
+
+  if [[ "$status" == "draft" && "$workflow_phase" != "requirement_assessment" ]]; then
+    warn "${req_id}: draft stories usually stay in workflow_phase=requirement_assessment"
+  fi
+
+  if [[ "$status" == "review" && "$workflow_phase" != "pr_packet_and_handoff" ]]; then
+    warn "${req_id}: review stories usually map to workflow_phase=pr_packet_and_handoff"
   fi
 
   if [[ "$status" == "blocked" ]]; then
