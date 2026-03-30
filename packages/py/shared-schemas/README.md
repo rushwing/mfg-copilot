@@ -9,6 +9,11 @@ Early priority schemas:
 - retrieval request and retrieval result contracts
 - trace correlation metadata such as `task_id`, `approval_id`, `plan_id`, and `langsmith_run_id`
 
+Schema-first rule:
+- these schemas are the canonical contract layer for machine-consumed artifacts
+- decoder choices such as provider-native structured outputs or Outlines must conform to these schemas
+- raw human input should be normalized into these contracts after ingestion, not constrained at the UI boundary
+
 Phase 1 recommendation:
 - define the approval schema now, even if approval execution logic ships later
 
@@ -18,3 +23,8 @@ Scaffolded contracts:
 - `approval-envelope.schema.yaml`
 - `retrieval-response.schema.yaml`
 
+Planned next contracts:
+- orchestrator handoff envelopes
+- agent request and response envelopes
+- review packet and release-gate summaries
+- future A2A task payloads
