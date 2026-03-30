@@ -11,6 +11,9 @@ Use this index after you know which phase you are working in.
 - [REQ-003](./REQ-003.md): define shared contracts for gateway, orchestration, tracing, and approvals
 - [REQ-004](./REQ-004.md): build retrieval foundation and KB ingestion baseline
 - [REQ-005](./REQ-005.md): implement model routing and safety policy baseline
+- [REQ-018](./REQ-018.md): define PR review packet contract and artifact envelope
+- [REQ-019](./REQ-019.md): define PR review packet visual language and reviewer information layout
+- [REQ-020](./REQ-020.md): integrate PR review packet generation and gating into the workflow phase graph
 
 ### Phase 1
 
