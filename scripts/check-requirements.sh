@@ -3,17 +3,17 @@
 
 set -euo pipefail
 
-command -v rg >/dev/null 2>&1 || {
-  echo "check-requirements: ripgrep (rg) is required"
-  exit 1
-}
-
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
 FAIL=0
 WARN_COUNT=0
 ERROR_COUNT=0
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1 && rg --version >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 ok()   { echo -e "${GREEN}  ✓${NC} $*"; }
@@ -48,7 +48,11 @@ check_enum() {
 
 require_heading() {
   local file="$1" heading="$2" context="$3"
-  if ! rg -q "^# ${heading}$" "$file"; then
+  if (( HAS_RG == 1 )); then
+    if ! rg -q "^# ${heading}$" "$file"; then
+      fail "$context: missing heading '# ${heading}'"
+    fi
+  elif ! grep -Eq "^# ${heading}$" "$file"; then
     fail "$context: missing heading '# ${heading}'"
   fi
 }
@@ -194,7 +198,11 @@ for req_file in "${REQ_FILES[@]}"; do
   fi
 
   if [[ "$status" == "blocked" ]]; then
-    if ! rg -q '^blocked_reason:' "$req_file"; then
+    if (( HAS_RG == 1 )); then
+      if ! rg -q '^blocked_reason:' "$req_file"; then
+        warn "${req_id}: blocked story has no blocked_reason field yet"
+      fi
+    elif ! grep -Eq '^blocked_reason:' "$req_file"; then
       warn "${req_id}: blocked story has no blocked_reason field yet"
     fi
   fi

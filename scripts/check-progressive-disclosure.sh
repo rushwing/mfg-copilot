@@ -3,15 +3,15 @@
 
 set -euo pipefail
 
-command -v rg >/dev/null 2>&1 || {
-  echo "check-progressive-disclosure: ripgrep (rg) is required"
-  exit 1
-}
-
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
 FAIL=0
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1 && rg --version >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
 ok()   { echo -e "${GREEN}  ✓${NC} $*"; }
@@ -28,7 +28,13 @@ require_file() {
 
 require_text() {
   local file="$1" pattern="$2" label="$3"
-  if rg -q --fixed-strings "$pattern" "$file"; then
+  if (( HAS_RG == 1 )); then
+    if rg -q --fixed-strings "$pattern" "$file"; then
+      ok "$label"
+    else
+      fail "$label"
+    fi
+  elif grep -Fq -- "$pattern" "$file"; then
     ok "$label"
   else
     fail "$label"
@@ -37,7 +43,13 @@ require_text() {
 
 forbidden_text() {
   local file="$1" pattern="$2" label="$3"
-  if rg -q --fixed-strings "$pattern" "$file"; then
+  if (( HAS_RG == 1 )); then
+    if rg -q --fixed-strings "$pattern" "$file"; then
+      fail "$label"
+    else
+      ok "$label"
+    fi
+  elif grep -Fq -- "$pattern" "$file"; then
     fail "$label"
   else
     ok "$label"
@@ -75,6 +87,11 @@ echo "check-progressive-disclosure: validating docs and tasks indexes..."
 require_text "docs/README.md" "(./architecture/README.md)" "docs home links to architecture index"
 require_text "docs/README.md" "(../tasks/README.md)" "docs home links to tasks home"
 require_text "docs/README.md" "(./adr/README.md)" "docs home links to ADR index"
+
+require_text "docs/adr/README.md" "(./0003-structured-io-and-constrained-generation.md)" "ADR index links to ADR 0003"
+require_text "docs/adr/README.md" "(./0004-phase-based-orchestration-over-pure-react.md)" "ADR index links to ADR 0004"
+require_text "docs/architecture/patterns/README.md" "structured-generation.md" "patterns index links to structured-generation"
+require_text "docs/architecture/patterns/README.md" "phase-graph-orchestration.md" "patterns index links to phase-graph-orchestration"
 
 require_text "tasks/README.md" "(./phases/README.md)" "tasks home links to phase index"
 require_text "tasks/README.md" "(./features/README.md)" "tasks home links to feature index"
