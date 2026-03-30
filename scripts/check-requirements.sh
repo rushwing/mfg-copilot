@@ -3,6 +3,11 @@
 
 set -euo pipefail
 
+command -v rg >/dev/null 2>&1 || {
+  echo "check-requirements: ripgrep (rg) is required"
+  exit 1
+}
+
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
