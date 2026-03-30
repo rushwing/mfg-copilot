@@ -20,18 +20,23 @@ Note `headRefName` and the `files` list before proceeding.
 git fetch origin <headRefName> && git checkout <headRefName>
 ```
 
-Run every validator that exists in `scripts/` — skip silently if the file is absent:
+Always run the two core validators:
 
 ```bash
 bash scripts/check-requirements.sh
 bash scripts/check-progressive-disclosure.sh
-bash scripts/check-pr-review-packet-layout.sh
-python3 scripts/check-pr-review-packet-contract.py
-python3 scripts/check-pr-review-packet-gating.py
 ```
 
-Record pass / fail / warning count for each. A check is "skipped" only when the script file
-does not exist yet — not when it errors.
+Guard each optional validator with an existence check before running it:
+
+```bash
+[ -f scripts/check-pr-review-packet-layout.sh ]    && bash scripts/check-pr-review-packet-layout.sh
+[ -f scripts/check-pr-review-packet-contract.py ]  && python3 scripts/check-pr-review-packet-contract.py
+[ -f scripts/check-pr-review-packet-gating.py ]    && python3 scripts/check-pr-review-packet-gating.py
+```
+
+Record pass / fail / skipped for each. A check is "skipped" only when the guard finds the
+file absent — not when it errors. An error from a present script is a failure.
 
 ## Step 3 — Read key changed files
 
