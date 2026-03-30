@@ -2,16 +2,33 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 title: PRReviewPacket
 type: object
 required:
+  - schema_id
+  - schema_version
   - packet_id
+  - pr_number
   - pr_title
+  - generation_mode
+  - artifact
+  - linked_adrs
   - summary
   - linked_requirements
   - validation
   - risks
   - reviewer_checklist
+  - visuals
+additionalProperties: false
 properties:
+  schema_id:
+    type: string
+    const: pr-review-packet
+    description: Stable identifier for the shared PR review packet contract.
+  schema_version:
+    type: string
+    pattern: "^v[0-9]+$"
+    description: Contract version for packet producers and consumers.
   packet_id:
     type: string
+    pattern: "^pr-[0-9]+-review-packet$"
   pr_number:
     type: integer
     minimum: 1
@@ -22,8 +39,32 @@ properties:
     enum:
       - direct_structured
       - draft_then_structure
+    description: Generation mode for the packet artifact itself, not for the user prompt.
+  artifact:
+    type: object
+    required:
+      - artifact_root
+      - machine_packet_path
+      - reviewer_packet_path
+      - visuals_dir
+    additionalProperties: false
+    description: Repository-relative artifact envelope for packet outputs.
+    properties:
+      artifact_root:
+        type: string
+        pattern: "^artifacts/pr-review-packets/pr-[0-9]+$"
+      machine_packet_path:
+        type: string
+        pattern: "^artifacts/pr-review-packets/pr-[0-9]+/review-packet\\.json$"
+      reviewer_packet_path:
+        type: string
+        pattern: "^artifacts/pr-review-packets/pr-[0-9]+/review-packet\\.md$"
+      visuals_dir:
+        type: string
+        pattern: "^artifacts/pr-review-packets/pr-[0-9]+/visuals$"
   linked_requirements:
     type: array
+    minItems: 1
     items:
       type: string
       pattern: "^REQ-[0-9]{3}$"
@@ -38,16 +79,22 @@ properties:
     required:
       - executive_summary
       - changed_areas
+    additionalProperties: false
+    description: Reviewer-facing prose lives here; the remaining sections stay strongly structured.
     properties:
       executive_summary:
         type: string
+        minLength: 1
+        description: Human-readable markdown or prose summary for reviewers.
       changed_areas:
         type: array
+        minItems: 1
         items:
           type: object
           required:
             - area
             - impact
+          additionalProperties: false
           properties:
             area:
               type: string
@@ -59,11 +106,13 @@ properties:
                 type: string
   validation:
     type: array
+    minItems: 1
     items:
       type: object
       required:
         - check
         - status
+      additionalProperties: false
       properties:
         check:
           type: string
@@ -77,12 +126,14 @@ properties:
           type: string
   risks:
     type: array
+    minItems: 1
     items:
       type: object
       required:
         - category
         - severity
         - note
+      additionalProperties: false
       properties:
         category:
           type: string
@@ -98,6 +149,7 @@ properties:
           type: string
   reviewer_checklist:
     type: array
+    minItems: 1
     items:
       type: string
   visuals:
@@ -107,6 +159,7 @@ properties:
       required:
         - type
         - title
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -118,3 +171,4 @@ properties:
           type: string
         path:
           type: string
+    description: Visual references stay structured even when the reviewer-facing layout evolves later.
