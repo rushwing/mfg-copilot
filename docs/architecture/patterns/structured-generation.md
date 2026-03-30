@@ -137,3 +137,6 @@ Recommended early two-step adopters:
 
 For the reviewer-facing layout rules that sit on top of the packet contract, see:
 - [`pr-review-packet-visual-language.md`](./pr-review-packet-visual-language.md)
+
+For workflow timing, gate artifacts, and exemption handling around packet generation, see:
+- [`pr-review-packet-workflow-integration.md`](./pr-review-packet-workflow-integration.md)

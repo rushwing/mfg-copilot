@@ -1,0 +1,105 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: PRReviewPacketGateDecision
+type: object
+required:
+  - schema_id
+  - schema_version
+  - pr_number
+  - packet_policy_class
+  - exemption_reason
+  - review_ready
+  - merge_ready
+  - artifact
+  - trace
+additionalProperties: false
+properties:
+  schema_id:
+    type: string
+    const: pr-review-packet-gate-decision
+  schema_version:
+    type: string
+    pattern: "^v[0-9]+$"
+  pr_number:
+    type: integer
+    minimum: 1
+  packet_policy_class:
+    type: string
+    enum:
+      - full_packet_required
+      - simplified_packet_allowed
+      - packet_exempt
+  exemption_reason:
+    type:
+      - string
+      - "null"
+    enum:
+      - docs_only
+      - comment_only
+      - formatting_only
+      - dependency_metadata_only
+      - "null"
+  review_ready:
+    type: boolean
+  merge_ready:
+    type: boolean
+  artifact:
+    type: object
+    required:
+      - decision_path
+      - packet_path
+      - reviewer_packet_path
+    additionalProperties: false
+    properties:
+      decision_path:
+        type: string
+        pattern: "^artifacts/pr-review-packets/pr-[0-9]+/gate-decision\\.json$"
+      packet_path:
+        type:
+          - string
+          - "null"
+      reviewer_packet_path:
+        type:
+          - string
+          - "null"
+  trace:
+    type: object
+    required:
+      - workflow_id
+      - phase_id
+      - branch_id
+      - selected_branch_id
+      - harness_run_id
+      - langsmith_run_id
+    additionalProperties: false
+    properties:
+      workflow_id:
+        type: string
+      phase_id:
+        type: string
+        const: pr_packet_and_handoff
+      branch_id:
+        type:
+          - string
+          - "null"
+      selected_branch_id:
+        type:
+          - string
+          - "null"
+      harness_run_id:
+        type:
+          - string
+          - "null"
+      langsmith_run_id:
+        type:
+          - string
+          - "null"
+  required_checks:
+    type: array
+    items:
+      type: string
+  missing_requirements:
+    type: array
+    items:
+      type: string
+  note:
+    type: string

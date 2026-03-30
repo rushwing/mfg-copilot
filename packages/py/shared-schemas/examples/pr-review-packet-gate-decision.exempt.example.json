@@ -1,0 +1,27 @@
+{
+  "schema_id": "pr-review-packet-gate-decision",
+  "schema_version": "v1",
+  "pr_number": 129,
+  "packet_policy_class": "packet_exempt",
+  "exemption_reason": "docs_only",
+  "review_ready": true,
+  "merge_ready": true,
+  "artifact": {
+    "decision_path": "artifacts/pr-review-packets/pr-129/gate-decision.json",
+    "packet_path": null,
+    "reviewer_packet_path": null
+  },
+  "trace": {
+    "workflow_id": "wf-pr-129",
+    "phase_id": "pr_packet_and_handoff",
+    "branch_id": null,
+    "selected_branch_id": null,
+    "harness_run_id": "hr-129",
+    "langsmith_run_id": "ls-129"
+  },
+  "required_checks": [
+    "exemption_reason_recorded"
+  ],
+  "missing_requirements": [],
+  "note": "Docs-only PRs may bypass packet generation when the exemption reason is recorded and trace-linked."
+}
