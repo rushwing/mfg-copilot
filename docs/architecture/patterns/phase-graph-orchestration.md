@@ -52,6 +52,7 @@ For small or low-risk stories, `test_design` may be folded into `requirement_ass
 ### pr_packet_and_handoff
 
 - generate the PR review packet
+- emit the packet gate decision
 - attach validation evidence and reviewer checklist
 - prepare handoff artifacts for HITL review
 
@@ -147,6 +148,9 @@ The packet can use a two-step generation mode:
 For reviewer-facing layout, table conventions, and visual requirements, see:
 - [`pr-review-packet-visual-language.md`](./pr-review-packet-visual-language.md)
 - [`pr-review-packet-example.md`](./pr-review-packet-example.md)
+
+For gate rules, exemption paths, and trace-linked handoff behavior, see:
+- [`pr-review-packet-workflow-integration.md`](./pr-review-packet-workflow-integration.md)
 
 ## Operational guidance
 

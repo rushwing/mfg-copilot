@@ -1,0 +1,29 @@
+{
+  "schema_id": "pr-review-packet-gate-decision",
+  "schema_version": "v1",
+  "pr_number": 128,
+  "packet_policy_class": "full_packet_required",
+  "exemption_reason": null,
+  "review_ready": true,
+  "merge_ready": true,
+  "artifact": {
+    "decision_path": "artifacts/pr-review-packets/pr-128/gate-decision.json",
+    "packet_path": "artifacts/pr-review-packets/pr-128/review-packet.json",
+    "reviewer_packet_path": "artifacts/pr-review-packets/pr-128/review-packet.md"
+  },
+  "trace": {
+    "workflow_id": "wf-pr-128",
+    "phase_id": "pr_packet_and_handoff",
+    "branch_id": null,
+    "selected_branch_id": null,
+    "harness_run_id": "hr-128",
+    "langsmith_run_id": "ls-128"
+  },
+  "required_checks": [
+    "schema_valid",
+    "checklist_present",
+    "required_visual_present"
+  ],
+  "missing_requirements": [],
+  "note": "Architecture-impacting PRs require a full packet before merge readiness."
+}

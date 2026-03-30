@@ -143,6 +143,23 @@ It typically includes:
 - reviewer checklist
 - at least one visual when architecture or control-flow impact matters
 
+### packet_policy_class
+
+The workflow classification that decides whether a PR needs a full packet, a simplified packet, or an exemption decision only.
+
+Canonical values:
+- `full_packet_required`
+- `simplified_packet_allowed`
+- `packet_exempt`
+
+### review_ready
+
+A gate outcome meaning the PR has enough packet or exemption metadata to enter human review without forcing the reviewer to infer system impact from raw diffs alone.
+
+### merge_ready
+
+A stricter gate outcome meaning the PR has already met the repository's packet, validation, and exemption requirements for merge.
+
 ## Platform Terms
 
 ### orchestrator

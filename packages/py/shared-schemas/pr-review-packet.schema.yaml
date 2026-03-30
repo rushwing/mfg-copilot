@@ -9,6 +9,8 @@ required:
   - pr_title
   - generation_mode
   - artifact
+  - trace
+  - gating
   - linked_adrs
   - summary
   - linked_requirements
@@ -62,6 +64,64 @@ properties:
       visuals_dir:
         type: string
         pattern: "^artifacts/pr-review-packets/pr-[0-9]+/visuals$"
+  trace:
+    type: object
+    required:
+      - workflow_id
+      - phase_id
+      - branch_id
+      - selected_branch_id
+      - harness_run_id
+      - langsmith_run_id
+    additionalProperties: false
+    description: Correlation metadata tying the packet back to workflow execution and observability.
+    properties:
+      workflow_id:
+        type: string
+      phase_id:
+        type: string
+        const: pr_packet_and_handoff
+      branch_id:
+        type:
+          - string
+          - "null"
+      selected_branch_id:
+        type:
+          - string
+          - "null"
+      harness_run_id:
+        type:
+          - string
+          - "null"
+      langsmith_run_id:
+        type:
+          - string
+          - "null"
+  gating:
+    type: object
+    required:
+      - gate_rule_id
+      - packet_policy_class
+      - review_ready
+      - merge_ready
+      - required_visual
+    additionalProperties: false
+    description: Workflow gating outcome for packet-backed PR review handoff.
+    properties:
+      gate_rule_id:
+        type: string
+        const: pr-review-packet-gate-v1
+      packet_policy_class:
+        type: string
+        enum:
+          - full_packet_required
+          - simplified_packet_allowed
+      review_ready:
+        type: boolean
+      merge_ready:
+        type: boolean
+      required_visual:
+        type: boolean
   linked_requirements:
     type: array
     minItems: 1

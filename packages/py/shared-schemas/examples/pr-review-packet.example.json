@@ -11,6 +11,21 @@
     "reviewer_packet_path": "artifacts/pr-review-packets/pr-128/review-packet.md",
     "visuals_dir": "artifacts/pr-review-packets/pr-128/visuals"
   },
+  "trace": {
+    "workflow_id": "wf-pr-128",
+    "phase_id": "pr_packet_and_handoff",
+    "branch_id": null,
+    "selected_branch_id": null,
+    "harness_run_id": "hr-128",
+    "langsmith_run_id": "ls-128"
+  },
+  "gating": {
+    "gate_rule_id": "pr-review-packet-gate-v1",
+    "packet_policy_class": "full_packet_required",
+    "review_ready": true,
+    "merge_ready": true,
+    "required_visual": true
+  },
   "linked_requirements": [
     "REQ-018"
   ],
