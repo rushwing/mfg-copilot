@@ -212,3 +212,5 @@ Allowed values:
 - it validates frontmatter completeness, enum values, required sections, phase/story cross-references, and `workflow_phase` values
 - the script should run in GitHub Actions so malformed stories do not silently enter the main branch
 - `bash scripts/check-progressive-disclosure.sh` should validate the required navigation hubs and keep root entry points from linking directly to too many deep docs
+- `requirements-merge-gate` should validate that PR-linked requirements are merge-eligible before protected-branch merge
+- the merge gate may auto-close a linked requirement from `review` to `done` only when `workflow_phase` is already `pr_packet_and_handoff`
