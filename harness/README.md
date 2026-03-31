@@ -17,7 +17,7 @@ PR review packet gate rule:
 - packet gating examples and trace-linked gate decisions should remain reproducible from harness-visible artifacts, not only PR comments
 
 Requirements merge gate rule:
-- PRs may link requirements through `REQ-xxx` references in the PR body or by directly changing requirement files
+- PRs should link requirements through a dedicated `Linked requirements` or `Requirements` section in the PR body, or by directly changing requirement files
 - merge should be blocked if a linked requirement is not merge-eligible
 - if a linked requirement is still `status: review` and `workflow_phase: pr_packet_and_handoff`, the merge gate may auto-close it to `done` before merge
 

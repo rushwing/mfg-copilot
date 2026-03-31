@@ -12,6 +12,8 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REQ_PATTERN = re.compile(r"\bREQ-\d{3}\b")
+REQ_SECTION_HEADING_PATTERN = re.compile(r"^\s{0,3}#{1,6}\s+(linked requirements|requirements)\s*$", re.IGNORECASE)
+LIST_ITEM_PATTERN = re.compile(r"^\s*[-*]\s+(.*)$")
 REQ_FILE_PATTERNS = [
     re.compile(r"^tasks/features/(REQ-\d{3})\.md$"),
     re.compile(r"^tasks/archive/done/(REQ-\d{3})\.md$"),
@@ -27,13 +29,17 @@ def fail(message: str) -> None:
 
 
 def git(*args: str) -> str:
-    proc = subprocess.run(
-        ["git", *args],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
+    try:
+        proc = subprocess.run(
+            ["git", *args],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        stderr = exc.stderr.strip() or exc.stdout.strip() or "git command failed"
+        fail(f"git {' '.join(args)} failed: {stderr}")
     return proc.stdout.strip()
 
 
@@ -62,7 +68,7 @@ def extract_linked_requirements(pr: dict, files: Sequence[str]) -> List[str]:
     reqs = set()
     body = pr.get("body") or ""
     if isinstance(body, str):
-        reqs.update(REQ_PATTERN.findall(body))
+        reqs.update(extract_linked_requirements_from_body(body))
 
     for file_path in files:
         for pattern in REQ_FILE_PATTERNS:
@@ -70,6 +76,28 @@ def extract_linked_requirements(pr: dict, files: Sequence[str]) -> List[str]:
             if match:
                 reqs.add(match.group(1))
                 break
+
+    return sorted(reqs)
+
+
+def extract_linked_requirements_from_body(body: str) -> List[str]:
+    reqs = set()
+    in_req_section = False
+
+    for line in body.splitlines():
+        if REQ_SECTION_HEADING_PATTERN.match(line):
+            in_req_section = True
+            continue
+
+        if in_req_section and re.match(r"^\s{0,3}#{1,6}\s+", line):
+            in_req_section = False
+
+        if not in_req_section:
+            continue
+
+        match = LIST_ITEM_PATTERN.match(line)
+        target = match.group(1) if match else line
+        reqs.update(REQ_PATTERN.findall(target))
 
     return sorted(reqs)
 
@@ -107,13 +135,18 @@ def parse_frontmatter(path: pathlib.Path) -> Dict[str, str]:
 def update_status(path: pathlib.Path, new_status: str) -> None:
     lines = path.read_text(encoding="utf-8").splitlines()
     updated = False
-    for index, line in enumerate(lines):
+    if len(lines) < 3 or lines[0].strip() != "---":
+        fail(f"{path.relative_to(ROOT)} is missing YAML frontmatter")
+
+    for index, line in enumerate(lines[1:], start=1):
+        if line.strip() == "---":
+            break
         if line.startswith("status:"):
             lines[index] = f"status: {new_status}"
             updated = True
             break
     if not updated:
-        fail(f"{path.relative_to(ROOT)} is missing a status field")
+        fail(f"{path.relative_to(ROOT)} frontmatter is missing a status field")
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
