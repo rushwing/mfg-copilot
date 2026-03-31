@@ -16,6 +16,11 @@ Traceability rule:
 PR review packet gate rule:
 - packet gating examples and trace-linked gate decisions should remain reproducible from harness-visible artifacts, not only PR comments
 
+Requirements merge gate rule:
+- PRs should link requirements through a dedicated `Linked requirements` or `Requirements` section in the PR body, or by directly changing requirement files
+- merge should be blocked if a linked requirement is not merge-eligible
+- if a linked requirement is still `status: review` and `workflow_phase: pr_packet_and_handoff`, the merge gate may auto-close it to `done` before merge
+
 PR review skill rule:
 - `skills/review-pr/` is for explicit human-review mode only
 - default LLM PR review should not automatically invoke that skill unless the user explicitly asks for human review or names `review-pr`
